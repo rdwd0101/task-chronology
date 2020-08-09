@@ -1,5 +1,4 @@
 #include "mainWindow.hpp"
-#include <iostream>
 
 ui::MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder)
     : Gtk::Window(cobject)
@@ -14,5 +13,15 @@ ui::MainWindow::~MainWindow() {}
 
 void ui::MainWindow::AddTaskButton_clicked_cb()
 {
-    std::cout << "Hello World" << std::endl;
+    if (m_TasksList.get() == nullptr)
+    {
+        Gtk::ListBox* listPtr = nullptr;
+        m_builder->get_widget("TasksList", listPtr);
+        m_TasksList.reset(listPtr);
+    }
+    
+    Gtk::Label* item = new Gtk::Label();
+    item->set_text("Hello, world!");
+    m_TasksList->insert(*item, m_TasksList->get_children().size());
+    item->show();
 }

@@ -12,7 +12,7 @@ namespace ui {
 
     protected: // member widgets
         std::unique_ptr<Gtk::Button> m_AddTaskButton;
-        std::unique_ptr<Gtk::ListBox> m_TasksList;
+        std::unique_ptr<Gtk::TreeView> m_TasksList;
         Glib::RefPtr<Gtk::Builder> m_builder;
     };
 }

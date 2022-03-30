@@ -9,7 +9,7 @@ namespace chronology
     namespace utils
     {
         std::string GetUUID();
-        void SaveJSON(const boost::property_tree::ptree& pt);
-        void LoadJSON(const boost::filesystem::path& path);
+        void SaveJSONToFile(const boost::property_tree::ptree& pt);
+        void LoadJSONFromFile(const boost::filesystem::path& path);
     }
 }

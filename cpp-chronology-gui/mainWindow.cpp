@@ -15,13 +15,13 @@ void ui::MainWindow::AddTaskButton_clicked_cb()
 {
     if (m_TasksList.get() == nullptr)
     {
-        Gtk::ListBox* listPtr = nullptr;
-        m_builder->get_widget("TasksList", listPtr);
-        m_TasksList.reset(listPtr);
+        Gtk::TreeView* treePtr = nullptr;
+        m_builder->get_widget("TaskTreeView", treePtr);
+        m_TasksList.reset(treePtr);
     }
     
     Gtk::Label* item = new Gtk::Label();
     item->set_text("Hello, world!");
-    m_TasksList->insert(*item, m_TasksList->get_children().size());
+    m_TasksList->add(*item);
     item->show();
 }

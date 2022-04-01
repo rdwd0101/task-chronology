@@ -17,4 +17,4 @@ SET(SOURCES "main.cpp" "mainWindow.cpp")
 
 # target
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(cpp-chronology-gui ${GTK3_LIBRARIES})
+target_link_libraries(cpp-chronology-gui ${GTK3_LIBRARIES} glog)

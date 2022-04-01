@@ -2,7 +2,8 @@
 
 ui::MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder)
     : Gtk::Window(cobject)
-    , m_builder(builder) {
+    , m_builder(builder)
+{
     Gtk::Button* buttonPtr = nullptr;
     m_builder->get_widget("AddTaskButton", buttonPtr);
     m_AddTaskButton.reset(buttonPtr);
@@ -11,17 +12,18 @@ ui::MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Buil
 
 ui::MainWindow::~MainWindow() {}
 
-void ui::MainWindow::AddTaskButton_clicked_cb()
+void ui::MainWindow::StartInInitState()
 {
-    if (m_TasksList.get() == nullptr)
+    if (m_TasksListView.get() == nullptr)
     {
         Gtk::TreeView* treePtr = nullptr;
         m_builder->get_widget("TaskTreeView", treePtr);
-        m_TasksList.reset(treePtr);
+        m_TasksListView.reset(treePtr);
     }
-    
-    Gtk::Label* item = new Gtk::Label();
-    item->set_text("Hello, world!");
-    m_TasksList->add(*item);
-    item->show();
+}
+
+
+void ui::MainWindow::AddTaskButton_clicked_cb()
+{
+    LOG(INFO) << "Found cookies";
 }

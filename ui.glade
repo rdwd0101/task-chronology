@@ -4,6 +4,8 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="MainWindow">
     <property name="can_focus">False</property>
+    <property name="default_width">450</property>
+    <property name="default_height">350</property>
     <child type="titlebar">
       <object class="GtkHeaderBar">
         <property name="visible">True</property>
@@ -38,7 +40,6 @@
                 <property name="halign">center</property>
                 <property name="valign">end</property>
                 <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
                 <signal name="clicked" handler="AddTaskButton_clicked_cb" object="TasksList" swapped="no"/>
               </object>
               <packing>
@@ -50,11 +51,13 @@
               <object class="GtkScrolledWindow">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="vexpand">True</property>
                 <property name="shadow_type">in</property>
                 <child>
                   <object class="GtkTreeView" id="TaskTreeView">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="vexpand">True</property>
                     <property name="headers_visible">False</property>
                     <child internal-child="selection">
                       <object class="GtkTreeSelection"/>

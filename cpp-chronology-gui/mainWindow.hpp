@@ -2,6 +2,8 @@
 #include <gtkmm.h>
 #include <glog/logging.h>
 
+#include "columns.hpp"
+
 namespace ui {
     class MainWindow : public Gtk::Window {
     public:
@@ -16,5 +18,8 @@ namespace ui {
         std::unique_ptr<Gtk::Button> m_AddTaskButton;
         std::unique_ptr<Gtk::TreeView> m_TasksListView;
         Glib::RefPtr<Gtk::Builder> m_builder;
+        //Gtk::TreeView m_TasksListView;
+        Columns m_columns;
+        Glib::RefPtr<Gtk::ListStore> m_treeModel;
     };
 }

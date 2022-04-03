@@ -3,7 +3,7 @@
 #include "mainWindow.hpp"
 
 namespace constants {
-    static const std::string s_uiFileName = "ui.glade";
+    static const std::string s_uiFileName = "gui.glade";
 }
 
 int main (int argc, char *argv[]) {

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(cpp-chronology-gui)
+find_package(yaml-cpp)
+find_package(Boost 1.71.0 COMPONENTS system filesystem) 
 
 # compiler flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -17,4 +19,6 @@ SET(SOURCES "main.cpp" "mainWindow.cpp")
 
 # target
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(cpp-chronology-gui ${GTK3_LIBRARIES} glog)
+target_include_directories(${PROJECT_NAME} PUBLIC cpp-chronology-lib)
+target_link_libraries(cpp-chronology-gui ${GTK3_LIBRARIES} Boost::system Boost::filesystem cpp-chronology-lib glog yaml-cpp)
+

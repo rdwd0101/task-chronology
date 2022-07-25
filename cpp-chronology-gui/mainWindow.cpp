@@ -41,6 +41,10 @@ void ui::MainWindow::StartInInitState()
     column_hours_renderer->property_editable() = true;
 */
     show_all_children();
+
+    auto ptr = new chronology::providers::YamlDatabaseProvider();
+    m_dbProvider.reset(ptr);
+    m_dbProvider->Load("./worklog.yaml");
 }
 
 

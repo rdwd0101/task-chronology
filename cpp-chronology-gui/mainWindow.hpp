@@ -2,10 +2,15 @@
 #include <gtkmm.h>
 #include <glog/logging.h>
 
+#include "../cpp-chronology-lib/providers/IDatabaseProvider.h"
+#include "../cpp-chronology-lib/providers/YamlDatabaseProvider.h"
 #include "columns.hpp"
 
 namespace ui {
     class MainWindow : public Gtk::Window {
+    private:
+        std::unique_ptr<chronology::providers::YamlDatabaseProvider> m_dbProvider;
+
     public:
         MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);
         virtual ~MainWindow();

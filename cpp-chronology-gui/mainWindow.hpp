@@ -11,15 +11,17 @@ namespace ui {
         virtual ~MainWindow();
         void StartInInitState();
 
-    protected: // signals
+    protected: // callbacks
         void AddTaskButton_clicked_cb();
+        void NewWorklogDialogOkButton_clicked_cb();
 
     protected: // member widgets
         std::unique_ptr<Gtk::Button> m_AddTaskButton;
-        std::unique_ptr<Gtk::TreeView> m_TasksListView;
+        
         Glib::RefPtr<Gtk::Builder> m_builder;
-        //Gtk::TreeView m_TasksListView;
-        Columns m_columns;
-        Glib::RefPtr<Gtk::ListStore> m_treeModel;
+        TodayTaskListColumns m_columns;
+        
+        Glib::RefPtr<Gtk::ListStore> m_dailyTasksTreeModel;
+        std::unique_ptr<Gtk::TreeView> m_dailyTasksListView;
     };
 }

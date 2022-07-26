@@ -4,7 +4,7 @@ find_package(Boost 1.71.0 COMPONENTS system)
 
 # compiler flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-add_definitions(-std=c++11)
+add_definitions(-std=c++14)
 
 # source files
 SET(SOURCES "main.cpp")

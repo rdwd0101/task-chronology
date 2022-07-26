@@ -10,12 +10,15 @@ namespace chronology
         class WorklogDBManager
         {
         private:
-            boost::filesystem::path m_dbPath;
+            //boost::filesystem::path m_dbPath;
             std::vector<types::DailyRecord> m_records;
             std::unique_ptr<providers::IDatabaseProvider> m_dbProvider;
 
         public:
-            WorklogDBManager(const boost::filesystem::path& path, providers::IDatabaseProvider* dbProvider);
+            WorklogDBManager(providers::IDatabaseProvider* dbProvider);
+            void Load(const boost::filesystem::path& path);
+            void AddRecord(const types::DailyRecord& record);
+            void RemoveRecord(uuid_t recordId);
         };
     }
 }

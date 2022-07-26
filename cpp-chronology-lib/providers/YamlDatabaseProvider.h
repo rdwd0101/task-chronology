@@ -14,8 +14,9 @@ namespace chronology
             YAML::Node m_database;
 
         public:
-            void Load(const boost::filesystem::path& path);
-            void Save(const boost::filesystem::path& path);
+            virtual ~YamlDatabaseProvider() {};
+            void Load(const boost::filesystem::path& path) override;
+            void Save(const boost::filesystem::path& path) override;
         };
     }
 }

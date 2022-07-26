@@ -5,7 +5,7 @@ find_package(Boost 1.71.0 COMPONENTS system filesystem)
 
 # compiler flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-add_definitions(-std=c++11)
+add_definitions(-std=c++14)
 
 #includes
 find_package(PkgConfig REQUIRED)

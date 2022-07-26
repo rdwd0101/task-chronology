@@ -1,8 +1,27 @@
 #include "worklogDBManager.h"
 
-chronology::managers::WorklogDBManager::WorklogDBManager(const boost::filesystem::path& path,
+chronology::managers::WorklogDBManager::WorklogDBManager(
     providers::IDatabaseProvider* dbProvider)
-    : m_dbPath(path)
 {
     m_dbProvider.reset(dbProvider);
+}
+
+void chronology::managers::WorklogDBManager::Load(const boost::filesystem::path& path)
+{
+    m_dbProvider->Load(path);
+}
+
+void chronology::managers::WorklogDBManager::AddRecord(const types::DailyRecord& record)
+{
+    // TODO: add some checks here also
+    m_records.push_back(record);
+}
+
+void chronology::managers::WorklogDBManager::RemoveRecord(uuid_t recordId)
+{
+    std::remove_if(
+        m_records.begin(),
+        m_records.end(),
+        [recordId](const types::DailyRecord& record) { return record.id == recordId; }
+    );
 }

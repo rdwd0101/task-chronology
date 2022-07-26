@@ -1,3 +1,4 @@
+#include <memory>
 #include "mainWindow.hpp"
 
 ui::MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder)
@@ -10,7 +11,7 @@ ui::MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Buil
     m_AddTaskButton->signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::AddTaskButton_clicked_cb));
     
     Gtk::Button* buttonPtr2 = nullptr;
-    m_builder->get_widget("AddTaskButton", buttonPtr2);
+    m_builder->get_widget("NewWorklogDialogOkButton", buttonPtr2);
     buttonPtr2->signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::NewWorklogDialogOkButton_clicked_cb));
 }
 
@@ -32,19 +33,13 @@ void ui::MainWindow::StartInInitState()
     m_dailyTasksListView->append_column_editable("Name", m_columns.m_task_name);
     m_dailyTasksListView->append_column_editable("Hours", m_columns.m_hours);
     m_dailyTasksListView->append_column_editable("Description", m_columns.m_task_description);
-/*
-    auto column_name_renderer = (Gtk::CellRendererText*)m_dailyTasksListView->get_column_cell_renderer(0);
-    auto column_desc_renderer = (Gtk::CellRendererText*)m_dailyTasksListView->get_column_cell_renderer(1);
-    auto column_hours_renderer = (Gtk::CellRendererText*)m_dailyTasksListView->get_column_cell_renderer(2);
-    column_name_renderer->property_editable() = true;
-    column_desc_renderer->property_editable() = true;
-    column_hours_renderer->property_editable() = true;
-*/
+    
     show_all_children();
 
     auto ptr = new chronology::providers::YamlDatabaseProvider();
-    m_dbProvider.reset(ptr);
-    m_dbProvider->Load("./worklog.yaml");
+    //std::make_shared<chronology::providers::YamlDatabaseProvider>();
+    m_worklogDbManager = std::make_unique<chronology::managers::WorklogDBManager>(ptr);
+    m_worklogDbManager->Load("./worklog.yaml");
 }
 
 
@@ -81,17 +76,6 @@ void ui::MainWindow::AddTaskButton_clicked_cb()
     row[m_columns.m_task_name] = nameEntryPtr->get_text();
     row[m_columns.m_task_description] = descEntryPtr->get_text();
     row[m_columns.m_hours] = std::stof(timeEntryPtr->get_text().c_str());
-
-
-    /*
-    auto col = m_dailyTasksListView->get_column(m_dailyTasksListView->get_columns().size() - 1);
-    
-    Gtk::TreePath::Path path;
-    m_dailyTasksListView->get_path_at_pos(0,0,path);
-    
-    m_dailyTasksListView->set_cursor(path, col, true);
-    Gtk::Widget::grab_focus();
-    */
 }
 
 void ui::MainWindow::NewWorklogDialogOkButton_clicked_cb()

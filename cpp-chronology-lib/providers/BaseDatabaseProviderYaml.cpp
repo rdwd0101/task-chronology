@@ -1,6 +1,6 @@
-#include "YamlDatabaseProvider.h"
+#include "BaseDatabaseProviderYaml.h"
 
-void chronology::providers::YamlDatabaseProvider::Load(const boost::filesystem::path& path)
+void chronology::providers::BaseDatabaseProviderYaml::Load(const boost::filesystem::path& path)
 {
     if (path.empty())
     {
@@ -13,7 +13,7 @@ void chronology::providers::YamlDatabaseProvider::Load(const boost::filesystem::
     m_database = YAML::LoadFile(path.string());
 }
 
-void chronology::providers::YamlDatabaseProvider::Save(const boost::filesystem::path& path)
+void chronology::providers::BaseDatabaseProviderYaml::Save(const boost::filesystem::path& path)
 {
     if (m_database.IsNull())
     {

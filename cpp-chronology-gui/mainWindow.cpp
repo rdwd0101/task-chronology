@@ -36,10 +36,10 @@ void ui::MainWindow::StartInInitState()
     
     show_all_children();
 
-    auto ptr = new chronology::providers::YamlDatabaseProvider();
+    //auto ptr = new chronology::providers::YamlDatabaseProvider();
     //std::make_shared<chronology::providers::YamlDatabaseProvider>();
-    m_worklogDbManager = std::make_unique<chronology::managers::WorklogDBManager>(ptr);
-    m_worklogDbManager->Load("./worklog.yaml");
+    //m_worklogDbManager = std::make_unique<chronology::managers::WorklogDBManager>(ptr);
+    //m_worklogDbManager->Load("./worklog.yaml");
 }
 
 

@@ -3,15 +3,15 @@
 #include <glog/logging.h>
 
 #include "../cpp-chronology-lib/providers/IDatabaseProvider.h"
-#include "../cpp-chronology-lib/providers/YamlDatabaseProvider.h"
+//#include "../cpp-chronology-lib/providers/BaseDatabaseProviderYaml.h"
 #include "../cpp-chronology-lib/managers/worklogDBManager.h"
 #include "columns.hpp"
 
 namespace ui {
     class MainWindow : public Gtk::Window {
     private:
-        std::unique_ptr<chronology::providers::YamlDatabaseProvider> m_dbProvider;
-        std::unique_ptr<chronology::managers::WorklogDBManager> m_worklogDbManager;
+        //std::unique_ptr<chronology::providers::YamlDatabaseProvider> m_dbProvider;
+        //std::unique_ptr<chronology::managers::WorklogDBManager> m_worklogDbManager;
 
     public:
         MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);

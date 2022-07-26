@@ -1,3 +1,4 @@
+#pragma once
 #include <uuid/uuid.h>
 #include <string>
 #include <chrono>

@@ -59,7 +59,8 @@ namespace chronology
                 m_dbManager->AddRecord(record);
 
                 // update ui
-                AddRecordToUI(record);
+                m_dailyTasksTreeModel->clear();
+                Load();
             }
         };
     }

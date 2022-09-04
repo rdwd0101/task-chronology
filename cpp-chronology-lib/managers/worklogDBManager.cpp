@@ -46,7 +46,8 @@ void chronology::managers::WorklogDBManager::AddRecord(const types::DailyRecord&
     m_worklogList["worklog_list"].push_back(item);
     m_dbProvider->Save(m_worklogList, m_path);
 
-    records.push_back(record);
+    //records.push_back(record);
+    //Load();
 }
 
 void chronology::managers::WorklogDBManager::RemoveRecord(uuid_t recordId)

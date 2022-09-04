@@ -26,9 +26,7 @@ namespace ui {
         
         Glib::RefPtr<Gtk::Builder> m_builder;
         TodayTaskListColumns m_columns;
-        
         Glib::RefPtr<Gtk::ListStore> m_dailyTasksTreeModel;
-
         std::unique_ptr<Gtk::TreeView> m_dailyTasksListView;
 
         chronology::controllers::DailyTasksController m_dailyTasksController;

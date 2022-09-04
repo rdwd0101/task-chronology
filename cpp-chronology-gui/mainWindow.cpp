@@ -20,6 +20,7 @@ ui::MainWindow::~MainWindow() {}
 
 void ui::MainWindow::StartInInitState()
 {
+    LOG(INFO) << "on StartInInitState";
     if (m_dailyTasksListView.get() == nullptr)
     {
         Gtk::TreeView* treePtr = nullptr;
@@ -38,6 +39,7 @@ void ui::MainWindow::StartInInitState()
     show_all_children();
 
     m_dailyTasksController.Load();
+    LOG(INFO) << "StartInInitState finish";
 
     //auto ptr = new chronology::providers::YamlDatabaseProvider();
     //std::make_shared<chronology::providers::YamlDatabaseProvider>();

@@ -13,24 +13,24 @@ namespace chronology
         class DailyTasksController
         {
         private:
-            chronology::managers::WorklogDBManager m_dbManager;
+            std::unique_ptr<chronology::managers::WorklogDBManager> m_dbManager;
             std::shared_ptr<chronology::providers::YamlDatabaseProvider> m_dbProvider;
             Glib::RefPtr<Gtk::ListStore> m_dailyTasksTreeModel;
             ui::TodayTaskListColumns m_columns;
         
         public:
             DailyTasksController(const Glib::RefPtr<Gtk::ListStore>& model)
-             : m_dbManager(m_dbProvider)
-             , m_dbProvider(std::make_shared<chronology::providers::YamlDatabaseProvider>())
+             : m_dbProvider(std::make_shared<chronology::providers::YamlDatabaseProvider>())
              , m_dailyTasksTreeModel(model)
             {
-
+                m_dbManager = std::make_unique<chronology::managers::WorklogDBManager>(m_dbProvider);
             }
 
             void Load()
             {
                 // TODO: return data:
-                m_dbManager.Load("worklog_database.yaml");
+                return;
+                m_dbManager->Load("worklog_database.yaml");
                 std::vector<chronology::types::DailyRecord> list;
 
                 for (const auto& item : list)

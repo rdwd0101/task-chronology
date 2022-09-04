@@ -12,7 +12,7 @@ namespace chronology
             uuid_t id;
             //uuid_t task_id;
             std::string task_name;
-            std::chrono::system_clock::time_point started;
+            std::time_t date;
             float hours;
             std::string description;
         };

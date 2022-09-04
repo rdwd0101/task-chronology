@@ -104,7 +104,7 @@ void ui::MainWindow::NewWorklogDialogOkButton_clicked_cb()
     record.description = descEntryPtr->get_text();
     record.hours = std::stof(timeEntryPtr->get_text().c_str());
     record.task_name = nameEntryPtr->get_text();
-    record.started = std::chrono::system_clock::now();
+    record.date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
     m_dailyTasksController.AddRecord(record);
 

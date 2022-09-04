@@ -10,13 +10,14 @@ YAML::Node chronology::providers::YamlDatabaseProvider::Load(const boost::filesy
     }
 
     auto abs_path = boost::filesystem::system_complete(path);
-    std::cout << "abs file path: " << abs_path.c_str() << std::endl;
     if (!boost::filesystem::exists(abs_path))
     {
+        std::cout << "Data file path: " << abs_path.c_str() << " does not exist on filesystem" << std::endl;
         YAML::Node node;
         return node;
     }
 
+    std::cout << "Loaded data file path: " << abs_path.c_str() << std::endl;
     return YAML::LoadFile(path.string());
 }
 

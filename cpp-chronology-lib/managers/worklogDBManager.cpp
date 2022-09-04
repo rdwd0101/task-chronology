@@ -16,10 +16,9 @@ void chronology::managers::WorklogDBManager::Load()
     {
         m_worklogList["worklog_list"] = YAML::Node();
     }
-    records.clear();
 
+    records.clear();
     auto list = m_worklogList["worklog_list"];
-    std::cout << "Is sequence: " << list.IsSequence() << std::endl;
 
     for (auto it=list.begin(); it!=list.end(); ++it)
     {
@@ -30,7 +29,7 @@ void chronology::managers::WorklogDBManager::Load()
         record.task_name = item["task"].as<std::string>();
         record.description = item["description"].as<std::string>();
         record.hours = item["hours"].as<float>();
-        //record.started = item["date"].as<int>();
+        record.date = item["date"].as<std::time_t>();
         records.push_back(record);
     }
 }
@@ -42,8 +41,7 @@ void chronology::managers::WorklogDBManager::AddRecord(const types::DailyRecord&
     item["task"] = record.task_name;
     item["description"] = record.description;
     item["hours"] = record.hours;
-    auto time = std::chrono::system_clock::to_time_t(record.started);
-    item["date"] = time;
+    item["date"] = record.date;
 
     m_worklogList["worklog_list"].push_back(item);
     m_dbProvider->Save(m_worklogList, m_path);

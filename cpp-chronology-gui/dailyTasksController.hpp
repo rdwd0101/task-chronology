@@ -41,10 +41,10 @@ namespace chronology
 
             void AddRecordToUI(const chronology::types::DailyRecord& record)
             {
-                std::cout << std::endl;
-                std::cout << record.task_name << "\n";
-                std::cout << record.description << "\n";
-                std::cout << record.hours << "\n";
+                //std::cout << std::endl;
+                //std::cout << record.task_name << "\n";
+                //std::cout << record.description << "\n";
+                //std::cout << record.hours << "\n";
                 
                 
                 Gtk::TreeModel::Row row = *(m_dailyTasksTreeModel->append());

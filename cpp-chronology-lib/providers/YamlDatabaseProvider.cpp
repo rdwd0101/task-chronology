@@ -1,5 +1,6 @@
 #include "YamlDatabaseProvider.h"
 #include <error.h>
+#include <iostream>
 
 YAML::Node chronology::providers::YamlDatabaseProvider::Load(const boost::filesystem::path& path)
 {
@@ -7,32 +8,32 @@ YAML::Node chronology::providers::YamlDatabaseProvider::Load(const boost::filesy
     {
         throw new std::runtime_error("Provided path is empty or does not exist");
     }
-    return YAML::LoadFile(path.string());
-    /*
-    if (m_database["lastLogin"]) {
 
+    auto abs_path = boost::filesystem::system_complete(path);
+    std::cout << "abs file path: " << abs_path.c_str() << std::endl;
+    if (!boost::filesystem::exists(abs_path))
+    {
+        YAML::Node node;
+        return node;
     }
-    for(YAML::const_iterator it=lineup.begin();it!=lineup.end();++it) {
-  std::cout << "Playing at " << it->first.as<std::string>() << " is " << it->second.as<std::string>() << "\n";
-    }
-    */
+
+    return YAML::LoadFile(path.string());
 }
 
 void chronology::providers::YamlDatabaseProvider::Save(YAML::Node data, const boost::filesystem::path& path)
 {
     if (data.IsNull())
     {
-        return;
+        std::cout << "invalid data" << std::endl;
+        throw new std::runtime_error("Provided data is empty");
     }
     if (path.empty())
     {
-        return;
+        std::cout << "invalid path (empty)" << std::endl;
+        throw new std::runtime_error("Provided [path is empty");
     }
-    if (!boost::filesystem::exists(path))
-    {
-        return;
-    }
+    auto abs_path = boost::filesystem::system_complete(path);
 
-    std::ofstream fout(path.string());
+    std::ofstream fout(abs_path.string());
     fout << data;
 }

@@ -11,9 +11,11 @@ namespace chronology
         {
         public:
             std::vector<types::DailyRecord> records;
+
         private:    
             std::unique_ptr<providers::YamlDatabaseProvider> m_dbProvider;
             boost::filesystem::path m_path;
+            YAML::Node m_worklogList;
 
         public:
             WorklogDBManager(const boost::filesystem::path& path);

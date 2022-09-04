@@ -1,5 +1,6 @@
 #include "worklogDBManager.h"
 #include <iostream>
+#include <chrono>
 
 chronology::managers::WorklogDBManager::WorklogDBManager(
     const boost::filesystem::path& path)
@@ -10,12 +11,14 @@ chronology::managers::WorklogDBManager::WorklogDBManager(
 
 void chronology::managers::WorklogDBManager::Load()
 {
-    auto node = m_dbProvider->Load(m_path);
-    if (!node["worklog_list"])
+    m_worklogList = m_dbProvider->Load(m_path);
+    if (!m_worklogList["worklog_list"])
     {
-        throw std::runtime_error("File with invalid format provided");
+        m_worklogList["worklog_list"] = YAML::Node();
     }
-    auto list = node["worklog_list"];
+    records.clear();
+
+    auto list = m_worklogList["worklog_list"];
     std::cout << "Is sequence: " << list.IsSequence() << std::endl;
 
     for (auto it=list.begin(); it!=list.end(); ++it)
@@ -35,6 +38,16 @@ void chronology::managers::WorklogDBManager::Load()
 void chronology::managers::WorklogDBManager::AddRecord(const types::DailyRecord& record)
 {
     // TODO: add some checks here also
+    YAML::Node item;
+    item["task"] = record.task_name;
+    item["description"] = record.description;
+    item["hours"] = record.hours;
+    auto time = std::chrono::system_clock::to_time_t(record.started);
+    item["date"] = time;
+
+    m_worklogList["worklog_list"].push_back(item);
+    m_dbProvider->Save(m_worklogList, m_path);
+
     records.push_back(record);
 }
 

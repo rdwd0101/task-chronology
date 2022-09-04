@@ -1,6 +1,6 @@
 #pragma once
 #include <boost/filesystem.hpp>
-#include "../providers/IDatabaseProvider.h"
+#include "../providers/YamlDatabaseProvider.h"
 #include "../types/dailyrecord.h"
 
 namespace chronology
@@ -9,15 +9,15 @@ namespace chronology
     {
         class WorklogDBManager
         {
-        private:
-            //boost::filesystem::path m_dbPath;
-            std::vector<types::DailyRecord> m_records;
-            std::shared_ptr<providers::IDatabaseProvider> m_dbProvider;
+        public:
+            std::vector<types::DailyRecord> records;
+        private:    
+            std::unique_ptr<providers::YamlDatabaseProvider> m_dbProvider;
+            boost::filesystem::path m_path;
 
         public:
-            WorklogDBManager(
-                std::shared_ptr<providers::IDatabaseProvider> dbProvider);
-            void Load(const boost::filesystem::path& path);
+            WorklogDBManager(const boost::filesystem::path& path);
+            void Load();
             void AddRecord(const types::DailyRecord& record);
             void RemoveRecord(uuid_t recordId);
         };

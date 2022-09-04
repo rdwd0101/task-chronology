@@ -4,7 +4,6 @@
 ui::MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder)
     : Gtk::Window(cobject)
     , m_builder(builder)
-    , m_dailyTasksController(m_dailyTasksTreeModel)
 {
     Gtk::Button* buttonPtr = nullptr;
     m_builder->get_widget("AddTaskButton", buttonPtr);
@@ -38,21 +37,15 @@ void ui::MainWindow::StartInInitState()
     
     show_all_children();
 
+    m_dailyTasksController.SetModel(m_dailyTasksTreeModel);
     m_dailyTasksController.Load();
     LOG(INFO) << "StartInInitState finish";
-
-    //auto ptr = new chronology::providers::YamlDatabaseProvider();
-    //std::make_shared<chronology::providers::YamlDatabaseProvider>();
-    //m_worklogDbManager = std::make_unique<chronology::managers::WorklogDBManager>(ptr);
-    //m_worklogDbManager->Load("./worklog.yaml");
 }
 
 
 void ui::MainWindow::AddTaskButton_clicked_cb()
 {
     // adds daily record
-    // LOG(INFO) << "Found cookies";
-    //m_dailyTasksListView->get_cursor(path, column);
     Gtk::Dialog *dialogPtr = nullptr;
     m_builder->get_widget("NewWorklogDialog", dialogPtr);
     int buttonClicked = dialogPtr->run();

@@ -9,15 +9,15 @@ namespace chronology
 {
     namespace providers
     {
-        class YamlDatabaseProvider : public IDatabaseProvider
+        class YamlDatabaseProvider
         {
         private:
             YAML::Node m_database;
 
         public:
-            virtual ~YamlDatabaseProvider() {};
-            void Load(const boost::filesystem::path& path) override;
-            void Save(const boost::filesystem::path& path) override;
+            //virtual ~YamlDatabaseProvider() {};
+            YAML::Node Load(const boost::filesystem::path& path);
+            void Save(YAML::Node data, const boost::filesystem::path& path);
         };
     }
 }

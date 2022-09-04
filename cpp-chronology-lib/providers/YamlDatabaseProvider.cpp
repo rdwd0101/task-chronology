@@ -1,21 +1,26 @@
 #include "YamlDatabaseProvider.h"
+#include <error.h>
 
-void chronology::providers::YamlDatabaseProvider::Load(const boost::filesystem::path& path)
+YAML::Node chronology::providers::YamlDatabaseProvider::Load(const boost::filesystem::path& path)
 {
     if (path.empty())
     {
-        return;
+        throw new std::runtime_error("Provided path is empty or does not exist");
     }
-    if (!boost::filesystem::exists(path))
-    {
-        return;
+    return YAML::LoadFile(path.string());
+    /*
+    if (m_database["lastLogin"]) {
+
     }
-    m_database = YAML::LoadFile(path.string());
+    for(YAML::const_iterator it=lineup.begin();it!=lineup.end();++it) {
+  std::cout << "Playing at " << it->first.as<std::string>() << " is " << it->second.as<std::string>() << "\n";
+    }
+    */
 }
 
-void chronology::providers::YamlDatabaseProvider::Save(const boost::filesystem::path& path)
+void chronology::providers::YamlDatabaseProvider::Save(YAML::Node data, const boost::filesystem::path& path)
 {
-    if (m_database.IsNull())
+    if (data.IsNull())
     {
         return;
     }
@@ -29,5 +34,5 @@ void chronology::providers::YamlDatabaseProvider::Save(const boost::filesystem::
     }
 
     std::ofstream fout(path.string());
-    fout << m_database;
+    fout << data;
 }

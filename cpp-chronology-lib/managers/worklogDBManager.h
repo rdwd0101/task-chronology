@@ -12,10 +12,11 @@ namespace chronology
         private:
             //boost::filesystem::path m_dbPath;
             std::vector<types::DailyRecord> m_records;
-            std::unique_ptr<providers::IDatabaseProvider> m_dbProvider;
+            std::shared_ptr<providers::IDatabaseProvider> m_dbProvider;
 
         public:
-            WorklogDBManager(providers::IDatabaseProvider* dbProvider);
+            WorklogDBManager(
+                std::shared_ptr<providers::IDatabaseProvider> dbProvider);
             void Load(const boost::filesystem::path& path);
             void AddRecord(const types::DailyRecord& record);
             void RemoveRecord(uuid_t recordId);

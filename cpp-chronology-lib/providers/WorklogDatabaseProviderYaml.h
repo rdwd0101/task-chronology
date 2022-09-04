@@ -4,13 +4,13 @@
 #include <uuid/uuid.h>
 
 #include "../types/dailyrecord.h"
-#include "BaseDatabaseProviderYaml.h"
+#include "YamlDatabaseProvider.h"
 
 namespace chronology
 {
     namespace providers
     {
-        class WorklogDatabaseProviderYaml : public BaseDatabaseProviderYaml
+        class WorklogDatabaseProviderYaml : public YamlDatabaseProvider
         {
         private:
             const std::string m_yamlKey = "records";
@@ -18,7 +18,7 @@ namespace chronology
         public:
             virtual ~WorklogDatabaseProviderYaml() {};
             void AddRecord(const types::DailyRecord& record);
-            void RemoveRecord(uuid_t recordId) override;
+            void RemoveRecord(uuid_t recordId);
         };
     }
 }

@@ -2,10 +2,9 @@
 #include <gtkmm.h>
 #include <glog/logging.h>
 
-#include "../cpp-chronology-lib/providers/IDatabaseProvider.h"
-//#include "../cpp-chronology-lib/providers/BaseDatabaseProviderYaml.h"
-#include "../cpp-chronology-lib/managers/worklogDBManager.h"
+#include "../cpp-chronology-lib/types/dailyrecord.h"
 #include "columns.hpp"
+#include "dailyTasksController.hpp"
 
 namespace ui {
     class MainWindow : public Gtk::Window {
@@ -29,6 +28,9 @@ namespace ui {
         TodayTaskListColumns m_columns;
         
         Glib::RefPtr<Gtk::ListStore> m_dailyTasksTreeModel;
+
         std::unique_ptr<Gtk::TreeView> m_dailyTasksListView;
+
+        chronology::controllers::DailyTasksController m_dailyTasksController;
     };
 }

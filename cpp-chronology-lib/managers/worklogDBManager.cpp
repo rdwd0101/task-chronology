@@ -1,9 +1,9 @@
 #include "worklogDBManager.h"
 
 chronology::managers::WorklogDBManager::WorklogDBManager(
-    providers::IDatabaseProvider* dbProvider)
+    std::shared_ptr<chronology::providers::IDatabaseProvider> dbProvider)
 {
-    m_dbProvider.reset(dbProvider);
+    m_dbProvider = dbProvider;
 }
 
 void chronology::managers::WorklogDBManager::Load(const boost::filesystem::path& path)

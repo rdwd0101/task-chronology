@@ -10,7 +10,7 @@ add_definitions(-std=c++14)
 # source files
 SET(SOURCES 
     "utils/utils.cpp"
-    "providers/BaseDatabaseProviderYaml.cpp"
+    "providers/YamlDatabaseProvider.cpp"
     "providers/WorklogDatabaseProviderYaml.cpp"
     "managers/worklogDBManager.cpp")
 

@@ -4,6 +4,7 @@
 ui::MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder)
     : Gtk::Window(cobject)
     , m_builder(builder)
+    , m_dailyTasksController(m_dailyTasksTreeModel)
 {
     Gtk::Button* buttonPtr = nullptr;
     m_builder->get_widget("AddTaskButton", buttonPtr);
@@ -36,6 +37,8 @@ void ui::MainWindow::StartInInitState()
     
     show_all_children();
 
+    m_dailyTasksController.Load();
+
     //auto ptr = new chronology::providers::YamlDatabaseProvider();
     //std::make_shared<chronology::providers::YamlDatabaseProvider>();
     //m_worklogDbManager = std::make_unique<chronology::managers::WorklogDBManager>(ptr);
@@ -57,25 +60,6 @@ void ui::MainWindow::AddTaskButton_clicked_cb()
     {
         return;
     }
-
-    Gtk::Entry *nameEntryPtr = nullptr;
-    m_builder->get_widget("NewWorklogDialogNameEntryText", nameEntryPtr);
-
-    Gtk::Entry *timeEntryPtr = nullptr;
-    m_builder->get_widget("NewWorklogDialogTimeEntryText", timeEntryPtr);
-
-    Gtk::Entry *descEntryPtr = nullptr;
-    m_builder->get_widget("NewWorklogDialogDescriptionEntryText", descEntryPtr);
-    
-    if (nameEntryPtr == nullptr || timeEntryPtr == nullptr || descEntryPtr == nullptr)
-    {
-        return;
-    }
-    // assume that all error checking was performed in dialog button callback
-    Gtk::TreeModel::Row row = *(m_dailyTasksTreeModel->append());
-    row[m_columns.m_task_name] = nameEntryPtr->get_text();
-    row[m_columns.m_task_description] = descEntryPtr->get_text();
-    row[m_columns.m_hours] = std::stof(timeEntryPtr->get_text().c_str());
 }
 
 void ui::MainWindow::NewWorklogDialogOkButton_clicked_cb()
@@ -113,4 +97,20 @@ void ui::MainWindow::NewWorklogDialogOkButton_clicked_cb()
     }
     // TODO: add error checking:
     //row[m_columns.m_hours] = std::stof(timeEntryPtr->get_text().c_str());
+    
+    if (nameEntryPtr == nullptr || timeEntryPtr == nullptr || descEntryPtr == nullptr)
+    {
+        return;
+    }
+
+    // assume that all error checking was performed in dialog button callback
+
+    chronology::types::DailyRecord record;
+    record.description = descEntryPtr->get_text();
+    record.hours = std::stof(timeEntryPtr->get_text().c_str());
+    record.task_name = nameEntryPtr->get_text();
+    record.started = std::chrono::system_clock::now();
+
+    m_dailyTasksController.AddRecord(record);
+
 }

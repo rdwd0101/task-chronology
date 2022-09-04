@@ -34,6 +34,7 @@ void ui::MainWindow::StartInInitState()
     m_dailyTasksListView->append_column_editable("Name", m_columns.m_task_name);
     m_dailyTasksListView->append_column_editable("Hours", m_columns.m_hours);
     m_dailyTasksListView->append_column_editable("Description", m_columns.m_task_description);
+    m_dailyTasksListView->append_column("Date", m_columns.m_date);
     
     show_all_children();
 

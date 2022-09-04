@@ -51,6 +51,10 @@ namespace chronology
                 row[m_columns.m_task_name] = record.task_name; //nameEntryPtr->get_text();
                 row[m_columns.m_task_description] = record.description; //descEntryPtr->get_text();
                 row[m_columns.m_hours] = record.hours; //std::stof(timeEntryPtr->get_text().c_str());
+                
+                Glib::Date date;
+                date.set_time(record.date);
+                row[m_columns.m_date] = date.format_string("%F");
             }
 
             void AddRecord(const chronology::types::DailyRecord& record)

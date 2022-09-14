@@ -5,16 +5,17 @@ find_package(yaml-cpp)
 
 # compiler flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-add_definitions(-std=c++14)
+add_definitions(-std=c++17)
 
 # source files
 SET(SOURCES 
     "utils/utils.cpp"
     "providers/YamlDatabaseProvider.cpp"
     "providers/WorklogDatabaseProviderYaml.cpp"
-    "managers/worklogDBManager.cpp")
+    "managers/worklogDBManager.cpp"
+    "database/DatabaseWrapper.cpp"
+    "database/WorklogDb.cpp")
 
 # target
 add_library(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} Boost::system Boost::filesystem yaml-cpp)
-
+target_link_libraries(${PROJECT_NAME} Boost::system Boost::filesystem uuid sqlite3 yaml-cpp)

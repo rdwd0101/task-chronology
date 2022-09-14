@@ -52,9 +52,11 @@ void chronology::managers::WorklogDBManager::AddRecord(const types::DailyRecord&
 
 void chronology::managers::WorklogDBManager::RemoveRecord(uuid_t recordId)
 {
+    /*
     std::remove_if(
         records.begin(),
         records.end(),
         [recordId](const types::DailyRecord& record) { return record.id == recordId; }
     );
+    */
 }

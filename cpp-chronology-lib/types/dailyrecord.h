@@ -9,11 +9,11 @@ namespace chronology
     {
         struct DailyRecord
         {
-            uuid_t id;
+            std::string uuid;
             //uuid_t task_id;
             std::string task_name;
             std::time_t date;
-            float hours;
+            double hours;
             std::string description;
         };
     }

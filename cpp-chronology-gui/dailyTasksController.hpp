@@ -5,6 +5,10 @@
 #include "../cpp-chronology-lib/providers/YamlDatabaseProvider.h"
 #include "../cpp-chronology-lib/providers/YamlDatabaseProvider.h"
 #include "../cpp-chronology-lib/managers/worklogDBManager.h"
+
+#include "../cpp-chronology-lib/database/DatabaseWrapper.h"
+#include "../cpp-chronology-lib/database/WorklogDb.h"
+
 #include <iostream>
 
 namespace chronology
@@ -14,14 +18,19 @@ namespace chronology
         class DailyTasksController
         {
         private:
-            std::unique_ptr<chronology::managers::WorklogDBManager> m_dbManager;
+            //std::unique_ptr<chronology::managers::WorklogDBManager> m_dbManager;
+            std::unique_ptr<chronology::WorklogDb> _db;
             Glib::RefPtr<Gtk::ListStore> m_dailyTasksTreeModel;
             ui::TodayTaskListColumns m_columns;
+
+            std::string _dbName = "worklog.db";
         
         public:
             DailyTasksController()
-             : m_dbManager(std::make_unique<managers::WorklogDBManager>("worklogs.yaml"))
+             //: m_dbManager(std::make_unique<managers::WorklogDBManager>("worklogs.yaml"))
             {
+                _db = std::make_unique<chronology::WorklogDb>();
+                _db->load(_dbName);
             }
 
             void SetModel(const Glib::RefPtr<Gtk::ListStore>& model)
@@ -31,23 +40,25 @@ namespace chronology
 
             void Load()
             {
-                m_dbManager->Load();
+                _db->requestAllItems();
 
-                for (const auto& item : m_dbManager->records)
+                while (true)
                 {
+                    chronology::types::DailyRecord item;
+                    
+                    if (!_db->getItemStep(item))
+                    {
+                        break;
+                    }
                     AddRecordToUI(item);
                 }
             }
 
             void AddRecordToUI(const chronology::types::DailyRecord& record)
             {
-                //std::cout << std::endl;
-                //std::cout << record.task_name << "\n";
-                //std::cout << record.description << "\n";
-                //std::cout << record.hours << "\n";
-                
-                
+                // add record to model
                 Gtk::TreeModel::Row row = *(m_dailyTasksTreeModel->append());
+                row[m_columns.m_uuid] = record.uuid;
                 row[m_columns.m_task_name] = record.task_name; //nameEntryPtr->get_text();
                 row[m_columns.m_task_description] = record.description; //descEntryPtr->get_text();
                 row[m_columns.m_hours] = record.hours; //std::stof(timeEntryPtr->get_text().c_str());
@@ -60,7 +71,17 @@ namespace chronology
             void AddRecord(const chronology::types::DailyRecord& record)
             {
                 // add record to DB
-                m_dbManager->AddRecord(record);
+                _db->add(record);
+
+                // update ui
+                m_dailyTasksTreeModel->clear();
+                Load();
+            }
+
+            void RemoveRecord(const std::string& uuid)
+            {
+                // remove record from DB
+                _db->remove(uuid);
 
                 // update ui
                 m_dailyTasksTreeModel->clear();

@@ -5,7 +5,7 @@ find_package(Boost 1.71.0 COMPONENTS system filesystem)
 
 # compiler flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-add_definitions(-std=c++14)
+add_definitions(-std=c++17)
 
 #includes
 find_package(PkgConfig REQUIRED)
@@ -20,5 +20,5 @@ SET(SOURCES "main.cpp" "mainWindow.cpp")
 # target
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC cpp-chronology-lib)
-target_link_libraries(cpp-chronology-gui ${GTK3_LIBRARIES} Boost::system Boost::filesystem cpp-chronology-lib glog yaml-cpp)
+target_link_libraries(cpp-chronology-gui ${GTK3_LIBRARIES} Boost::system Boost::filesystem cpp-chronology-lib sqlite3 glog yaml-cpp)
 

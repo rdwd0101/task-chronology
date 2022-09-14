@@ -13,6 +13,10 @@ ui::MainWindow::MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Buil
     Gtk::Button* buttonPtr2 = nullptr;
     m_builder->get_widget("NewWorklogDialogOkButton", buttonPtr2);
     buttonPtr2->signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::NewWorklogDialogOkButton_clicked_cb));
+
+    Gtk::Button* buttonPtr3 = nullptr;
+    m_builder->get_widget("RemoveTaskButton", buttonPtr3);
+    buttonPtr3->signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::RemoveTaskButton_clicked_cb));
 }
 
 ui::MainWindow::~MainWindow() {}
@@ -102,11 +106,25 @@ void ui::MainWindow::NewWorklogDialogOkButton_clicked_cb()
     // assume that all error checking was performed in dialog button callback
 
     chronology::types::DailyRecord record;
+    record.uuid = chronology::utils::GenerateUUID();
     record.description = descEntryPtr->get_text();
-    record.hours = std::stof(timeEntryPtr->get_text().c_str());
+    record.hours = std::stod(timeEntryPtr->get_text().c_str());
     record.task_name = nameEntryPtr->get_text();
     record.date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
     m_dailyTasksController.AddRecord(record);
 
+}
+
+void ui::MainWindow::RemoveTaskButton_clicked_cb()
+{
+    // removes daily record
+
+    Glib::RefPtr<Gtk::TreeSelection> sel = m_dailyTasksListView->get_selection();
+    
+    Gtk::TreeModel::iterator selectedRow = sel->get_selected();
+    Gtk::TreeModel::Row row = *selectedRow;
+    Glib::ustring uuid = row.get_value(m_columns.m_uuid);
+    
+    m_dailyTasksController.RemoveRecord(uuid);
 }

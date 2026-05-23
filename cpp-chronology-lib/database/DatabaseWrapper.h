@@ -25,7 +25,7 @@ namespace chronology
         bool getQueryResult(const int column, std::string& outResult);
         bool getQueryResultInt64(const int column, int64_t& outResult);
         bool getQueryResultReal(const int column, double& outResult);
-        size_t getLastInsertRowid();
+        sqlite3_int64 getLastInsertRowid();
 
         std::string getLastErrorMsg();
         int getLastErrorCode();

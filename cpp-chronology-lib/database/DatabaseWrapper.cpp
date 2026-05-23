@@ -1,6 +1,8 @@
 #include "DatabaseWrapper.h"
 
 chronology::DatabaseWrapper::DatabaseWrapper()
+    : m_database(nullptr)
+    , m_statement(nullptr)
 {}
 
 chronology::DatabaseWrapper::~DatabaseWrapper()
@@ -13,10 +15,9 @@ chronology::DatabaseWrapper::~DatabaseWrapper()
 
 bool chronology::DatabaseWrapper::open(const std::filesystem::path& path)
 {
-    // assume that path is valid
     if (sqlite3_open(path.c_str(), &this->m_database) == SQLITE_OK)
     {
-        sqlite3_prepare_v2(this->m_database, "PRAGMA foreign_keys;", -1, &this->m_statement, 0);
+        sqlite3_exec(this->m_database, "PRAGMA foreign_keys = ON;", NULL, NULL, NULL);
         return true;
     }
     else
@@ -136,7 +137,10 @@ bool chronology::DatabaseWrapper::executeQuery()
 
 bool chronology::DatabaseWrapper::executeQuery(const std::string& query)
 {
-    this->prepareQuery(query);
+    if (!this->prepareQuery(query))
+    {
+        return false;
+    }
     return this->executeQuery();
 }
 
@@ -153,6 +157,12 @@ bool chronology::DatabaseWrapper::getQueryResult(const int column, std::string& 
 
         fprintf(stderr, "DatabaseWrapper get query error: %d (%s)\n", m_lastErrCode, m_lastErrorDescription.c_str());
         return false;
+    }
+
+    if (databaseItem == nullptr)
+    {
+        outResult.clear();
+        return true;
     }
 
     outResult.assign(databaseItem, databaseItem + bytes);
@@ -195,7 +205,7 @@ bool chronology::DatabaseWrapper::getQueryResultReal(const int column, double& o
     return true;
 }
 
-size_t chronology::DatabaseWrapper::getLastInsertRowid()
+sqlite3_int64 chronology::DatabaseWrapper::getLastInsertRowid()
 {
     return sqlite3_last_insert_rowid(this->m_database);
 }

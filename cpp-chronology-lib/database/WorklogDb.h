@@ -18,7 +18,6 @@ namespace chronology
 
         void load(const std::filesystem::path& path);
 
-        int getLastIndex();
         
         void add(const types::DailyRecord& item);
         void remove(const std::string& uuid);

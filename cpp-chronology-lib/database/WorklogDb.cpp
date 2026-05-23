@@ -17,7 +17,7 @@ void chronology::WorklogDb::load(const std::filesystem::path& path)
 
 bool chronology::WorklogDb::createTable()
 {
-    _database.prepareQuery("CREATE TABLE IF NOT EXISTS WORKLOG(UUID TEXT, NAME TEXT, DATE INTEGER, HOURS REAL, DESCRIPTION TEXT);");
+    _database.prepareQuery("CREATE TABLE IF NOT EXISTS WORKLOG(UUID TEXT NOT NULL PRIMARY KEY, NAME TEXT NOT NULL, DATE INTEGER NOT NULL, HOURS REAL NOT NULL, DESCRIPTION TEXT NOT NULL);");
 
     return _database.executeQuery();
 }

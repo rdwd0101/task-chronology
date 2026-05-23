@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.15)
 project(cpp-chronology-lib)
-find_package(Boost 1.71.0 COMPONENTS system filesystem) 
-find_package(yaml-cpp)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 # compiler flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -10,12 +9,10 @@ add_definitions(-std=c++17)
 # source files
 SET(SOURCES 
     "utils/utils.cpp"
-    "providers/YamlDatabaseProvider.cpp"
-    "providers/WorklogDatabaseProviderYaml.cpp"
-    "managers/worklogDBManager.cpp"
     "database/DatabaseWrapper.cpp"
     "database/WorklogDb.cpp")
 
 # target
 add_library(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} Boost::system Boost::filesystem uuid sqlite3 yaml-cpp)
+target_link_libraries(${PROJECT_NAME} Boost::headers Boost::system Boost::filesystem)
+target_link_libraries(${PROJECT_NAME} uuid sqlite3)

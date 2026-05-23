@@ -2,10 +2,6 @@
 #include <gtkmm.h>
 
 #include "columns.hpp"
-#include "../cpp-chronology-lib/providers/YamlDatabaseProvider.h"
-#include "../cpp-chronology-lib/providers/YamlDatabaseProvider.h"
-#include "../cpp-chronology-lib/managers/worklogDBManager.h"
-
 #include "../cpp-chronology-lib/database/DatabaseWrapper.h"
 #include "../cpp-chronology-lib/database/WorklogDb.h"
 
@@ -18,7 +14,6 @@ namespace chronology
         class DailyTasksController
         {
         private:
-            //std::unique_ptr<chronology::managers::WorklogDBManager> m_dbManager;
             std::unique_ptr<chronology::WorklogDb> _db;
             Glib::RefPtr<Gtk::ListStore> m_dailyTasksTreeModel;
             ui::TodayTaskListColumns m_columns;
@@ -27,7 +22,6 @@ namespace chronology
         
         public:
             DailyTasksController()
-             //: m_dbManager(std::make_unique<managers::WorklogDBManager>("worklogs.yaml"))
             {
                 _db = std::make_unique<chronology::WorklogDb>();
                 _db->load(_dbName);

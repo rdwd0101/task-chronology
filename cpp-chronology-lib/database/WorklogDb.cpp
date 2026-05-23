@@ -1,4 +1,5 @@
 #include "WorklogDb.h"
+#include <cstdio>
 
 chronology::WorklogDb::WorklogDb()
 {
@@ -45,7 +46,10 @@ void chronology::WorklogDb::remove(
     _database.prepareQuery("DELETE FROM WORKLOG WHERE UUID=?;");
     _database.bindToQuery(0, uuid);
 
-    _database.executeQuery();
+    if (!_database.executeQuery())
+    {
+        fprintf(stderr, "WorklogDb remove error: %s\n", _database.getLastErrorMsg().c_str());
+    }
 }
 
 bool chronology::WorklogDb::get(
@@ -63,7 +67,7 @@ bool chronology::WorklogDb::get(
         !_database.getQueryResultReal(2, outItem.hours) ||
         !_database.getQueryResult(3, outItem.description))
     {
-        throw new std::runtime_error("Cannot execute query: " + _database.getLastErrorMsg());
+        return false;
     }
 
     return true;

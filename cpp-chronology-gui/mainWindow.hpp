@@ -10,10 +10,6 @@
 
 namespace ui {
     class MainWindow : public Gtk::Window {
-    private:
-        //std::unique_ptr<chronology::providers::YamlDatabaseProvider> m_dbProvider;
-        //std::unique_ptr<chronology::managers::WorklogDBManager> m_worklogDbManager;
-
     public:
         MainWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);
         virtual ~MainWindow();

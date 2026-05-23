@@ -4,9 +4,6 @@
 
 #include "../types/dailyrecord.h"
 
-#include <vector>
-#include <memory>
-#include <uuid/uuid.h>
 #include <filesystem>
 
 namespace chronology

@@ -26,6 +26,8 @@ void chronology::WorklogDb::add(
         const types::DailyRecord& item
         )
 {
+    _database.beginTransaction();
+
     _database.prepareQuery("INSERT INTO WORKLOG VALUES(?, ?, ?, ?, ?);");
     _database.bindToQuery(0, item.uuid);
     _database.bindToQuery(1, item.task_name);
@@ -35,21 +37,30 @@ void chronology::WorklogDb::add(
 
     if (!_database.executeQuery())
     {
+        _database.rollbackTransaction();
         throw new std::runtime_error("Cannot execute query: " + _database.getLastErrorMsg());
     }
+
+    _database.commitTransaction();
 }
 
 void chronology::WorklogDb::remove(
         const std::string& uuid
         )
 {
+    _database.beginTransaction();
+
     _database.prepareQuery("DELETE FROM WORKLOG WHERE UUID=?;");
     _database.bindToQuery(0, uuid);
 
     if (!_database.executeQuery())
     {
+        _database.rollbackTransaction();
         fprintf(stderr, "WorklogDb remove error: %s\n", _database.getLastErrorMsg().c_str());
+        return;
     }
+
+    _database.commitTransaction();
 }
 
 bool chronology::WorklogDb::get(
@@ -75,46 +86,66 @@ bool chronology::WorklogDb::get(
 
 void chronology::WorklogDb::updateName(const std::string& uuid, const std::string& newName)
 {
+    _database.beginTransaction();
+
     _database.prepareQuery("UPDATE WORKLOG SET NAME=? WHERE UUID=?;");
     _database.bindToQuery(0, newName);
     _database.bindToQuery(1, uuid);
     if (!_database.executeQuery())
     {
+        _database.rollbackTransaction();
         throw new std::runtime_error("Cannot execute query: " + _database.getLastErrorMsg());
     }
+
+    _database.commitTransaction();
 }
 
 void chronology::WorklogDb::updateHours(const std::string& uuid, const double hours)
 {
+    _database.beginTransaction();
+
     _database.prepareQuery("UPDATE WORKLOG SET HOURS=? WHERE UUID=?;");
     _database.bindToQueryReal(0, hours);
     _database.bindToQuery(1, uuid);
     if (!_database.executeQuery())
     {
+        _database.rollbackTransaction();
         throw new std::runtime_error("Cannot execute query: " + _database.getLastErrorMsg());
     }
+
+    _database.commitTransaction();
 }
 
 void chronology::WorklogDb::updateDescription(const std::string& uuid, const std::string& newDescription)
 {
+    _database.beginTransaction();
+
     _database.prepareQuery("UPDATE WORKLOG SET DESCRIPTION=? WHERE UUID=?;");
     _database.bindToQuery(0, newDescription);
     _database.bindToQuery(1, uuid);
     if (!_database.executeQuery())
     {
+        _database.rollbackTransaction();
         throw new std::runtime_error("Cannot execute query: " + _database.getLastErrorMsg());
     }
+
+    _database.commitTransaction();
 }
 
 void chronology::WorklogDb::updateDate(const std::string& uuid, const std::time_t newDate)
 {
+    _database.beginTransaction();
+
     _database.prepareQuery("UPDATE WORKLOG SET DATE=? WHERE UUID=?;");
     _database.bindToQueryInt64(0, newDate);
     _database.bindToQuery(1, uuid);
     if (!_database.executeQuery())
     {
+        _database.rollbackTransaction();
         throw new std::runtime_error("Cannot execute query: " + _database.getLastErrorMsg());
     }
+
+    _database.commitTransaction();
 }
 
 

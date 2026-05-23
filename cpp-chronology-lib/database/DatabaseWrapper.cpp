@@ -135,6 +135,21 @@ bool chronology::DatabaseWrapper::executeQuery()
     }
 }
 
+bool chronology::DatabaseWrapper::beginTransaction()
+{
+    return executeQuery("BEGIN TRANSACTION;");
+}
+
+bool chronology::DatabaseWrapper::commitTransaction()
+{
+    return executeQuery("COMMIT;");
+}
+
+bool chronology::DatabaseWrapper::rollbackTransaction()
+{
+    return executeQuery("ROLLBACK;");
+}
+
 bool chronology::DatabaseWrapper::executeQuery(const std::string& query)
 {
     if (!this->prepareQuery(query))

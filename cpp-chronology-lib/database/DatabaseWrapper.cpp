@@ -5,7 +5,10 @@ chronology::DatabaseWrapper::DatabaseWrapper()
 
 chronology::DatabaseWrapper::~DatabaseWrapper()
 {
-    sqlite3_close(this->m_database);
+    if (this->m_database)
+    {
+        sqlite3_close(this->m_database);
+    }
 }
 
 bool chronology::DatabaseWrapper::open(const std::filesystem::path& path)

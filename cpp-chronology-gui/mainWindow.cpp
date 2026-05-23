@@ -95,20 +95,18 @@ void ui::MainWindow::NewWorklogDialogOkButton_clicked_cb()
         LOG(INFO) << "Desc entry was empty";
         return;
     }
-    // TODO: add error checking:
-    //row[m_columns.m_hours] = std::stof(timeEntryPtr->get_text().c_str());
-    
-    if (nameEntryPtr == nullptr || timeEntryPtr == nullptr || descEntryPtr == nullptr)
-    {
-        return;
-    }
-
-    // assume that all error checking was performed in dialog button callback
-
     chronology::types::DailyRecord record;
     record.uuid = chronology::utils::GenerateUUID();
     record.description = descEntryPtr->get_text();
-    record.hours = std::stod(timeEntryPtr->get_text().c_str());
+    try
+    {
+        record.hours = std::stod(timeEntryPtr->get_text().c_str());
+    }
+    catch (const std::exception& ex)
+    {
+        LOG(INFO) << "Invalid hours input: " << timeEntryPtr->get_text() << " (" << ex.what() << ")";
+        return;
+    }
     record.task_name = nameEntryPtr->get_text();
     record.date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 

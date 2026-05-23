@@ -53,7 +53,7 @@ bool chronology::WorklogDb::get(
         types::DailyRecord& outItem
         )
 {
-    _database.prepareQuery("SELECT NAME, DATE, HOURS, DESCRIPTION, FROM WORKLOG WHERE UUID=?;");
+    _database.prepareQuery("SELECT NAME, DATE, HOURS, DESCRIPTION FROM WORKLOG WHERE UUID=?;");
     _database.bindToQuery(0, uuid);
 
     _database.executeQuery();

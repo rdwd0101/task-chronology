@@ -162,7 +162,11 @@ bool chronology::WorklogDb::requestAllItems()
 
 bool chronology::WorklogDb::getItemStep(types::DailyRecord& item)
 {
-    _database.executeQuery();
+    if (!_database.stepQuery())
+    {
+        _is_under_query_execution = false;
+        return false;
+    }
 
     bool uuidStat = _database.getQueryResult(0, item.uuid);
     bool nameStat = _database.getQueryResult(1, item.task_name);

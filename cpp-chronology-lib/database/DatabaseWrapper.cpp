@@ -114,6 +114,19 @@ bool chronology::DatabaseWrapper::bindToQueryReal(
     }
 }
 
+bool chronology::DatabaseWrapper::stepQuery()
+{
+    switch (sqlite3_step(this->m_statement))
+    {
+        case SQLITE_ROW:
+            return true;
+        default:
+            m_lastErrCode = sqlite3_errcode(this->m_database);
+            m_lastErrorDescription = std::string(sqlite3_errmsg(this->m_database));
+            return false;
+    }
+}
+
 bool chronology::DatabaseWrapper::executeQuery()
 {
     //fprintf(stderr, "Executing query: %s\n", sqlite3_expanded_sql(this->m_statement));

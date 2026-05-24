@@ -22,6 +22,7 @@ namespace chronology
         bool bindToQueryReal(int index, const double value);
         bool executeQuery();
         bool executeQuery(const std::string& query);
+        bool stepQuery();
         bool beginTransaction();
         bool commitTransaction();
         bool rollbackTransaction();
